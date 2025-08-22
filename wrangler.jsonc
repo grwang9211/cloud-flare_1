@@ -11,10 +11,7 @@
 		"nodejs_compat",
 		"global_fetch_strictly_public"
 	],
-	"assets": {
-		"binding": "ASSETS",
-		"directory": ".open-next/assets"
-	},
+	"assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
 	"observability": {
 		"enabled": true
 	}

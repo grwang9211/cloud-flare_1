@@ -3,26 +3,38 @@ name: Deploy Cloudflare Worker
 on:
   push:
     branches:
-      - main  # Trigger on pushes to the main branch
-
+      - main
+      - testactions
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4  # Checkout the repository content
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
       - name: Install Dependencies
-        run: npm install # Or yarn install / pnpm install, depending on your package manager
+        run: npm ci
 
-      - name: Build OpenNext Project
-        run: npm run build # This command should trigger your Next.js/OpenNext build
+      # Option A: use your modified "build" script (build = open-next build)
+      - name: Build (OpenNext Cloudflare)
+        run: npm run build
 
-      - name: Deploy Worker
+      # Option B (alternative) direct invocation:
+      # - run: npx @opennextjs/cloudflare build
+
+      - name: Verify build output
+        run: ls -R .open-next | head -100
+
+      - name: Publish with Wrangler
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          # OpenNext usually handles the entry point and configuration
-          # but ensure the build output is available.
-          # If your build output isn't in the root of the repo,
-          # you might need to specify the 'workingDirectory' input for the action.
-          # Example: workingDirectory: "out" (if your build output is in an 'out' folder)
+        env:
+          # If your wrangler.jsonc needs account_id via env secrets, set them here
+          # CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NODE_ENV: production

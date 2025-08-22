@@ -4,12 +4,13 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
-		"build": "next build",
+		"build": "open-next build",
 		"start": "next start",
 		"lint": "next lint",
 		"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
 		"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-		"cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
+		"cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
+		"build:cf": "@opennextjs/cloudflare build"
 	},
 	"dependencies": {
 		"@opennextjs/cloudflare": "^1.6.5",
@@ -23,7 +24,6 @@
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
 		"tailwindcss": "^4",
-		"typescript": "^5",
 		"wrangler": "^4.32.0"
 	}
 }
