@@ -1,5 +1,4 @@
-- name: Install Wrangler
-  run: npm install --no-save wrangler@4.32.0
+
 
 - name: Deploy Cloudflare Worker
 
@@ -12,6 +11,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Install Wrangler
+        run: npm install --no-save wrangler@4.32.0    
       - uses: actions/checkout@v4  # Checkout the repository content
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3  # Use the Cloudflare Wrangler action
