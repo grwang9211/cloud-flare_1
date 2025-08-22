@@ -20,21 +20,18 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # Option A: use your modified "build" script (build = open-next build)
       - name: Build (OpenNext Cloudflare)
-        run: npm run build
-
-      # Option B (alternative) direct invocation:
-      # - run: npx @opennextjs/cloudflare build
+        run: npm run build:cf
 
       - name: Verify build output
-        run: ls -R .open-next | head -100
+        run: |
+          echo "Listing .open-next root" && ls -al .open-next || echo ".open-next missing";
+          echo "Show first files";
+          find .open-next -maxdepth 2 -type f | head -50 || true
 
       - name: Publish with Wrangler
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         env:
-          # If your wrangler.jsonc needs account_id via env secrets, set them here
-          # CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           NODE_ENV: production
