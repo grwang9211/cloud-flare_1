@@ -11,13 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4  # Checkout the repository content
 
-      - name: Install Wrangler
-        run: npm install --no-save wrangler@4.32.0 # Add this step
+      - name: Install Dependencies
+        run: npm install # Or yarn install / pnpm install, depending on your package manager
+
+      - name: Build OpenNext Project
+        run: npm run build # This command should trigger your Next.js/OpenNext build
 
       - name: Deploy Worker
-        uses: cloudflare/wrangler-action@v3  # Use the Cloudflare Wrangler action
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          # If you want to specify a specific version of Wrangler (optional)
-          # wranglerVersion: "2.20.0" # You might not need this now that you're installing a specific version
-          # accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }} # Optional if already in wrangler.toml or project specific
+          # OpenNext usually handles the entry point and configuration
+          # but ensure the build output is available.
+          # If your build output isn't in the root of the repo,
+          # you might need to specify the 'workingDirectory' input for the action.
+          # Example: workingDirectory: "out" (if your build output is in an 'out' folder)
