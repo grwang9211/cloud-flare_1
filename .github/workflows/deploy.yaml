@@ -1,0 +1,19 @@
+name: Deploy Cloudflare Worker
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  # Checkout the repository content
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3  # Use the Cloudflare Wrangler action
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # If you want to specify a specific version of Wrangler (optional)
+          # wranglerVersion: "2.20.0"
+          # accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }} # Optional if already in wrangler.toml or project specific
