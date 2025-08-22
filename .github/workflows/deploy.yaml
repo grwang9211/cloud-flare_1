@@ -1,7 +1,7 @@
 - name: Install Wrangler
   run: npm install --no-save wrangler@4.32.0
-  
-name: Deploy Cloudflare Worker
+
+- name: Deploy Cloudflare Worker
 
 on:
   push:
