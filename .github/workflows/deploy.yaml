@@ -9,13 +9,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Wrangler
-        run: npm install --no-save wrangler@4.32.0    
       - uses: actions/checkout@v4  # Checkout the repository content
+
+      - name: Install Wrangler
+        run: npm install --no-save wrangler@4.32.0 # Add this step
+
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3  # Use the Cloudflare Wrangler action
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           # If you want to specify a specific version of Wrangler (optional)
-          # wranglerVersion: "2.20.0"
+          # wranglerVersion: "2.20.0" # You might not need this now that you're installing a specific version
           # accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }} # Optional if already in wrangler.toml or project specific
